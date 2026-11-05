@@ -1,0 +1,6 @@
+{
+  "name": "FLYT - Système de Gestion Logistique & Dispatch",
+  "description": "Logiciel futuriste et moderne de gestion de commandes et dispatch de livraison interconnecté en 4 blocs : Bureau Gérant, Bureau Boutiques, App Livreur et Suivi Client.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

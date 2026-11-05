@@ -1,0 +1,145 @@
+{
+  "entities": {
+    "Company": {
+      "title": "Company",
+      "description": "Registered delivery company profile and billing identity",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "logoUrl": { "type": "string", "maxLength": 200000 },
+        "city": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 255 },
+        "creationYear": { "type": "number" },
+        "managerName": { "type": "string", "maxLength": 150 },
+        "managerPhone": { "type": "string", "maxLength": 30 },
+        "managerSecondaryPhone": { "type": "string", "maxLength": 30 },
+        "managerEmail": { "type": "string", "maxLength": 150 },
+        "fleetSize": { "type": "number" },
+        "vehicleTypes": { "type": "array" },
+        "zonesCovered": { "type": "array" },
+        "avgDeliveriesPerDay": { "type": "string", "maxLength": 50 },
+        "clientTypes": { "type": "array" },
+        "trialActive": { "type": "boolean" },
+        "trialExpiresAt": { "type": "string", "maxLength": 60 },
+        "subscriptionStatus": { "type": "string", "enum": ["active", "pending_payment", "suspended"] },
+        "lastInvoiceAmount": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 60 }
+      },
+      "required": ["id", "name", "city", "address", "managerName", "managerPhone", "managerEmail", "fleetSize"]
+    },
+    "Driver": {
+      "title": "Driver",
+      "description": "Active delivery rider associated with a company",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "vehicleType": { "type": "string", "enum": ["moto", "tricycle", "voiture", "a_pied"] },
+        "status": { "type": "string", "enum": ["available", "on_delivery", "offline"] },
+        "currentZone": { "type": "string", "maxLength": 100 },
+        "currentLat": { "type": "number" },
+        "currentLng": { "type": "number" },
+        "todayDeliveries": { "type": "number" },
+        "weekDeliveries": { "type": "number" },
+        "monthDeliveries": { "type": "number" },
+        "totalEarningsFcfa": { "type": "number" },
+        "rating": { "type": "number" }
+      },
+      "required": ["id", "companyId", "name", "phone", "vehicleType", "status"]
+    },
+    "Manager": {
+      "title": "Manager",
+      "description": "Secondary managers or dispatchers appointed by the main manager",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "maxLength": 80 },
+        "addedAt": { "type": "string", "maxLength": 60 }
+      },
+      "required": ["id", "companyId", "name", "phone"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Delivery package order tracked in real-time",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "orderNumber": { "type": "string", "maxLength": 60 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "boutiqueId": { "type": "string", "maxLength": 128 },
+        "boutiqueName": { "type": "string", "maxLength": 150 },
+        "boutiqueQuartier": { "type": "string", "maxLength": 100 },
+        "recipientName": { "type": "string", "maxLength": 150 },
+        "recipientPhone": { "type": "string", "maxLength": 30 },
+        "deliveryQuartier": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["to_assign", "in_progress", "delivered", "canceled"] },
+        "driverId": { "type": "string", "maxLength": 128 },
+        "driverName": { "type": "string", "maxLength": 150 },
+        "itemDescription": { "type": "string", "maxLength": 300 },
+        "amountFcfa": { "type": "number" },
+        "deliveryFeeFcfa": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 60 },
+        "deliveredAt": { "type": "string", "maxLength": 60 },
+        "trackingToken": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["id", "orderNumber", "companyId", "recipientName", "recipientPhone", "deliveryQuartier", "status"]
+    },
+    "Boutique": {
+      "title": "Boutique",
+      "description": "Partner e-commerce store or vendor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "slug": { "type": "string", "maxLength": 100 },
+        "quartier": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 100 },
+        "isThirdParty": { "type": "boolean" }
+      },
+      "required": ["id", "companyId", "name", "phone", "slug", "quartier"]
+    },
+    "TestConnection": {
+      "title": "TestConnection",
+      "description": "Heartbeat and connection validation",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/test/{testId}": {
+      "schema": { "$ref": "#/entities/TestConnection" },
+      "description": "Collection for connectivity tests and health checks"
+    },
+    "/companies/{companyId}": {
+      "schema": { "$ref": "#/entities/Company" },
+      "description": "Collection of registered delivery companies"
+    },
+    "/drivers/{driverId}": {
+      "schema": { "$ref": "#/entities/Driver" },
+      "description": "Collection of registered riders/drivers"
+    },
+    "/managers/{managerId}": {
+      "schema": { "$ref": "#/entities/Manager" },
+      "description": "Collection of appointed dispatchers and managers"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Collection of parcel deliveries"
+    },
+    "/boutiques/{boutiqueId}": {
+      "schema": { "$ref": "#/entities/Boutique" },
+      "description": "Collection of partner vendor boutiques"
+    }
+  }
+}

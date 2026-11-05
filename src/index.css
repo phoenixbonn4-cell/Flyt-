@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-display {
+  font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.6);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4);
+}
+
+/* Signature invalid shake animation */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-9px);
+  }
+  40%, 80% {
+    transform: translateX(9px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Modal backdrop fade-in animation */
+@keyframes backdropFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Modal content slide-up + fade-in animation */
+@keyframes modalSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-backdrop-fade-in {
+  animation: backdropFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-slide-up {
+  animation: modalSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* LivreurApp Day/Light Mode for glare & eye comfort */
+.LivreurApp.livreur-light {
+  color: #0f172a;
+}
+.LivreurApp.livreur-light .bg-slate-900,
+.LivreurApp.livreur-light .bg-slate-900\/95,
+.LivreurApp.livreur-light .bg-slate-900\/90,
+.LivreurApp.livreur-light .bg-slate-900\/80,
+.LivreurApp.livreur-light .bg-slate-900\/60,
+.LivreurApp.livreur-light .bg-slate-950,
+.LivreurApp.livreur-light .bg-slate-950\/80,
+.LivreurApp.livreur-light .bg-slate-950\/60,
+.LivreurApp.livreur-light .bg-\[\#090D16\],
+.LivreurApp.livreur-light .bg-\[\#050811\],
+.LivreurApp.livreur-light .bg-slate-900\/50 {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+.LivreurApp.livreur-light .border-slate-800,
+.LivreurApp.livreur-light .border-slate-700 {
+  border-color: #e2e8f0;
+}
+.LivreurApp.livreur-light .text-white {
+  color: #0f172a;
+}
+.LivreurApp.livreur-light .text-slate-200,
+.LivreurApp.livreur-light .text-slate-300 {
+  color: #1e293b;
+}
+.LivreurApp.livreur-light .text-slate-400 {
+  color: #475569;
+}
+.LivreurApp.livreur-light .bg-slate-800 {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+.LivreurApp.livreur-light .bg-slate-800:hover {
+  background-color: #e2e8f0;
+}
+.LivreurApp.livreur-light input {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+

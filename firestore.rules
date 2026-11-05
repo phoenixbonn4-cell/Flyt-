@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health check test connection
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // Companies: Registered logistics companies
+    match /companies/{companyId} {
+      allow read: if true;
+      allow create: if isValidId(companyId) &&
+        request.resource.data.name is string && request.resource.data.name.size() <= 200 &&
+        request.resource.data.city is string &&
+        request.resource.data.address is string &&
+        request.resource.data.managerName is string &&
+        request.resource.data.managerPhone is string;
+      allow update: if isValidId(companyId);
+      allow delete: if isValidId(companyId);
+    }
+
+    // Drivers: Delivery couriers
+    match /drivers/{driverId} {
+      allow read: if true;
+      allow create: if isValidId(driverId) &&
+        request.resource.data.companyId is string &&
+        request.resource.data.name is string &&
+        request.resource.data.phone is string;
+      allow update: if isValidId(driverId);
+      allow delete: if isValidId(driverId);
+    }
+
+    // Managers: Secondary dispatchers and managers
+    match /managers/{managerId} {
+      allow read: if true;
+      allow create: if isValidId(managerId) &&
+        request.resource.data.companyId is string &&
+        request.resource.data.name is string;
+      allow update: if isValidId(managerId);
+      allow delete: if isValidId(managerId);
+    }
+
+    // Orders: Parcel delivery missions
+    match /orders/{orderId} {
+      allow read: if true;
+      allow create: if isValidId(orderId) &&
+        request.resource.data.companyId is string &&
+        request.resource.data.orderNumber is string;
+      allow update: if isValidId(orderId);
+      allow delete: if isValidId(orderId);
+    }
+
+    // Boutiques: E-commerce vendors
+    match /boutiques/{boutiqueId} {
+      allow read: if true;
+      allow create: if isValidId(boutiqueId) &&
+        request.resource.data.companyId is string &&
+        request.resource.data.name is string;
+      allow update: if isValidId(boutiqueId);
+      allow delete: if isValidId(boutiqueId);
+    }
+  }
+}
